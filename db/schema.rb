@@ -10,9 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_25_190242) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_26_194319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cards_on_user_id"
+  end
+
+  create_table "cards_columns", id: false, force: :cascade do |t|
+    t.bigint "column_id", null: false
+    t.bigint "card_id", null: false
+    t.index ["card_id"], name: "index_cards_columns_on_card_id"
+    t.index ["column_id"], name: "index_cards_columns_on_column_id"
+  end
+
+  create_table "columns", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_columns_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string "description"
+    t.bigint "user_id", null: false
+    t.bigint "card_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_comments_on_card_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -37,4 +71,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_25_190242) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "cards", "users"
+  add_foreign_key "columns", "users"
+  add_foreign_key "comments", "cards"
+  add_foreign_key "comments", "users"
 end
