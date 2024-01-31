@@ -5,8 +5,14 @@ Rails.application.routes.draw do
   # root "articles#index"
   #mount_devise_token_auth_for 'User', at: 'auth'
 
-  resources :users
-  resources :columns
-  resources :cards
-  resources :comments
+  resources :users do
+    resources :columns
+    resources :cards
+    resources :comments
+  end
+  
+  resources :cards do
+    resources :comments
+  end
+  
 end

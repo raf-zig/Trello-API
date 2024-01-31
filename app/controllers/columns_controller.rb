@@ -24,7 +24,8 @@ class ColumnsController < ApplicationController
   end
 
   def create
-    @column = Column.new(column_params)
+    @user = current_user
+    @column = @user.columns.create(column_params)
 
     if @column.save
       render json: @column, status: :created, location: @column
@@ -36,7 +37,7 @@ class ColumnsController < ApplicationController
   def update
     @column = Column.find(params[:id])
 
-    if @column.update(column_params)
+    if @column.update(column_params) && @column.user_id == current_user.id
       render json: @column
     else
       render json: @column.errors, status: :unprocessable_entity
@@ -45,7 +46,9 @@ class ColumnsController < ApplicationController
 
   def destroy
     @column = Column.find(params[:id])
-    @column.destroy
+    if @column.user_id == current_user.id
+      @column.destroy
+    end
   end
 
   private

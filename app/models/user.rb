@@ -10,4 +10,7 @@ class User < ActiveRecord::Base
   has_many :columns
   has_many :cards
   has_many :comments
+
+  validates :email, presence: true
+  validates :name, presence: true, length: { minimum: 3 }
 end
