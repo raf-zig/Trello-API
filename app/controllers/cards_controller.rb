@@ -3,20 +3,12 @@ class CardsController < ApplicationController
 
   def index
     @cards = Card.all
-
-    respond_to do |format|
-      format.json { render :json => @cards }
-    end
-    #render json: @cards
+    render json: @cards
   end
 
   def show
     @card = Card.find(params[:id])
-
-    respond_to do |format|
-      format.json { render :json => @card }
-    end
-    #render json: @card
+    render json: @card
   end
 
   def create

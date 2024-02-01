@@ -1,29 +1,14 @@
 class CommentsController < ApplicationController
-  #event = Event.find(params[:id])
-  #if event.user_id == current_user.id
-    #event.destroy
-  #else
-    #redirect_to :root, :notice => "You do not have permissions."
-  #end
-
   before_action :authenticate_user!
 
   def index
     @comments = Comment.all
-
-    respond_to do |format|
-      format.json { render :json => @comments }
-    end
-    #render json: @comments
+    render json: @comments
   end
 
   def show
     @comment = Comment.find(params[:id])
-
-    respond_to do |format|
-      format.json { render :json => @comment }
-    end
-    #render json: @comment
+    render json: @comment
   end
 
   def create

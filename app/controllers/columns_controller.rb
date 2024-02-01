@@ -1,26 +1,14 @@
 class ColumnsController < ApplicationController
   before_action :authenticate_user!
 
-  #def index
-    #render :nothing => true, :status => :ok 
-  #end 
-
   def index
     @columns = Column.all
-
-    respond_to do |format|
-      format.json { render :json => @columns }
-    end
-    #render json: @columns
+    render json: @columns
   end
 
   def show
     @column = Column.find(params[:id])
-
-    respond_to do |format|
-      format.json { render :json => @column }
-    end
-    #render json: @column
+    render json: @column
   end
 
   def create
